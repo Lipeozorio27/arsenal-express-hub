@@ -135,7 +135,7 @@ export const createPost = createServerFn({ method: "POST" })
     if (accErr || !acc?.postzen_account_id) throw new Error("Conta não encontrada");
 
     const scheduledIso = data.scheduledAt ? new Date(data.scheduledAt).toISOString() : null;
-    const body: Record<string, unknown> = {
+    const body: { [k: string]: unknown; scheduledFor?: string; publishNow?: boolean } = {
       content: data.caption,
       mediaItems: [{ url: data.videoUrl }],
       platforms: [
@@ -225,7 +225,10 @@ export const refreshPosts = createServerFn({ method: "POST" })
         const p = res.post ?? res;
         const plat = (p.platforms ?? []).find((x: any) => x.platform === "tiktok") ?? {};
         const a = plat.analytics ?? p.analytics ?? {};
-        const patch: Record<string, unknown> = {
+        const patch: {
+          views: number; likes: number; comments: number; shares: number;
+          status?: string; error_message?: string;
+        } = {
           views: num(a.views ?? a.viewCount),
           likes: num(a.likes ?? a.likeCount),
           comments: num(a.comments ?? a.commentCount),

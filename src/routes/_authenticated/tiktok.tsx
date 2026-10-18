@@ -414,7 +414,7 @@ function AnalyticsTab() {
       <div className="grid gap-4 sm:grid-cols-4">
         {(["scheduled", "publishing", "published", "failed"] as const).map((s) => (
           <div key={s} className="panel flex items-center justify-between p-4">
-            <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">{STATUS[s].label}</span>
+            <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground">{STATUS[s]?.label}</span>
             <span className="font-display text-2xl font-bold">{count(s)}</span>
           </div>
         ))}

@@ -37,10 +37,16 @@ function AuthPage() {
             options: { emailRedirectTo: `${window.location.origin}/tiktok` },
           });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     if (mode === "up") {
       const { data } = await supabase.auth.getSession();
-      if (!data.session) return toast.success("Confere seu e-mail pra confirmar a conta.");
+      if (!data.session) {
+        toast.success("Confere seu e-mail pra confirmar a conta.");
+        return;
+      }
     }
     navigate({ to: "/tiktok" });
   }
