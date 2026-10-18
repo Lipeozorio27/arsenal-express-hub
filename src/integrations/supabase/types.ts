@@ -387,6 +387,119 @@ export type Database = {
           },
         ]
       }
+      tiktok_accounts: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          postzen_account_id: string | null
+          status: string
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          postzen_account_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          postzen_account_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tiktok_accounts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tiktok_posts: {
+        Row: {
+          account_id: string
+          caption: string
+          comments: number
+          created_at: string
+          error_message: string | null
+          id: string
+          likes: number
+          postzen_post_id: string | null
+          scheduled_at: string
+          shares: number
+          status: string
+          updated_at: string
+          user_id: string
+          video_url: string
+          views: number
+        }
+        Insert: {
+          account_id: string
+          caption?: string
+          comments?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          likes?: number
+          postzen_post_id?: string | null
+          scheduled_at: string
+          shares?: number
+          status?: string
+          updated_at?: string
+          user_id: string
+          video_url: string
+          views?: number
+        }
+        Update: {
+          account_id?: string
+          caption?: string
+          comments?: number
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          likes?: number
+          postzen_post_id?: string | null
+          scheduled_at?: string
+          shares?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+          video_url?: string
+          views?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tiktok_posts_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "tiktok_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tiktok_posts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
