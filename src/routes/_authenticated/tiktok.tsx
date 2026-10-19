@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { openTikTokConnection } from "@/lib/tiktok-connect";
 import { toast } from "sonner";
 import { CalendarClock, Eye, Heart, Link2, MessageCircle, Plus, RefreshCw, Share2, Trash2, Users, Video } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/_authenticated/tiktok")({
       { name: "description", content: "Contas, postagens agendadas e números dos seus vídeos no TikTok." },
       { property: "og:title", content: "Agendador TikTok — Arsenal Express" },
       { property: "og:description", content: "Contas, postagens agendadas e números dos seus vídeos no TikTok." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: TikTokPage,
@@ -47,6 +50,23 @@ function usePosts() {
 
 function TikTokPage() {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState("posts");
+  const handledReturn = useRef(false);
+  const sync = useServerFn(syncAccounts);
+  const qc = useQueryClient();
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (handledReturn.current || url.searchParams.get("tiktok_connected") !== "1") return;
+    handledReturn.current = true;
+    setTab("accounts");
+    url.searchParams.delete("tiktok_connected");
+    window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+    void sync().then(async (result) => {
+      await qc.invalidateQueries({ queryKey: ["tiktok", "accounts"] });
+      if (result.synced) toast.success("Contas atualizadas após a autorização do TikTok");
+      else toast.error("Nenhuma conta TikTok encontrada. Confere se a autorização foi concluída e tenta Sincronizar.");
+    }).catch((error: Error) => toast.error(error.message));
+  }, [sync, qc]);
   return (
     <div className="animate-rise-in">
       <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
@@ -62,7 +82,7 @@ function TikTokPage() {
         </Button>
       </div>
 
-      <Tabs defaultValue="posts">
+      <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="mb-6 bg-surface-1">
           <TabsTrigger value="accounts">Contas</TabsTrigger>
           <TabsTrigger value="posts">Postagens</TabsTrigger>
@@ -123,8 +143,9 @@ function AccountsTab() {
     onError: (e: Error) => toast.error(e.message),
   });
   const connectM = useMutation({
-    mutationFn: () => connect({ data: { redirectUrl: `${window.location.origin}/tiktok` } }),
-    onSuccess: (r) => window.open(r.authUrl, "_blank", "noopener"),
+    mutationFn: () => openTikTokConnection(() => connect({
+      data: { redirectUrl: `${window.location.origin}/tiktok?tiktok_connected=1` },
+    })),
     onError: (e: Error) => toast.error(e.message),
   });
   const removeM = useMutation({
@@ -139,7 +160,7 @@ function AccountsTab() {
         <RefreshCw className={syncM.isPending ? "animate-spin" : ""} /> Sincronizar
       </Button>
       <Button onClick={() => connectM.mutate()} disabled={connectM.isPending}>
-        <Link2 /> Conectar conta
+        <Link2 /> {connectM.isPending ? "Conectando..." : "Conectar conta"}
       </Button>
     </div>
   );

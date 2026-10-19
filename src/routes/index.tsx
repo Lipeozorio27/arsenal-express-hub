@@ -9,6 +9,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Agende, publique e acompanhe seus vídeos do TikTok direto do Arsenal Express." },
       { property: "og:title", content: "Arsenal Express — Agendador TikTok" },
       { property: "og:description", content: "Agende, publique e acompanhe seus vídeos do TikTok direto do Arsenal Express." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,

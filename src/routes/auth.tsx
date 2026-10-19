@@ -13,6 +13,8 @@ export const Route = createFileRoute("/auth")({
       { name: "description", content: "Entre no Arsenal Express pra agendar seus vídeos no TikTok." },
       { property: "og:title", content: "Entrar — Arsenal Express" },
       { property: "og:description", content: "Entre no Arsenal Express pra agendar seus vídeos no TikTok." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AuthPage,

@@ -12,3 +12,4 @@
 ## Project rules
 - TikTok scheduling goes through PostZen only from server functions (`src/lib/postzen.server.ts`); the API key never reaches the browser.
 - Local tables `tiktok_accounts`/`tiktok_posts` mirror PostZen state per user (RLS by user_id); refresh pulls status/metrics from PostZen on demand.
+- TikTok authorization opens synchronously through the browser-safe connection helper, with same-tab fallback; the marked return refreshes accounts so popup blocking and stale local state do not hide a completed connection.
