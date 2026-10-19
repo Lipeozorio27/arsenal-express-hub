@@ -1,0 +1,13 @@
+{
+  "source": "github:ALOBEXPRESS/arsenal-express",
+  "capabilities": [
+    {"capability": "web app (Next.js 15: login, signup, dashboard, project editor, tiktok)", "source": "web/", "outcome": "rebuild em TanStack Start + React 19", "status": "in_progress", "next_action": "recriar rotas e componentes"},
+    {"capability": "database schema (profiles, projects, assets, scenes, renders, ai_generations)", "source": "supabase/migrations/*.sql", "outcome": "aplicar no Lovable Cloud Supabase", "status": "pending", "next_action": "adaptar migrations"},
+    {"capability": "auth (Supabase email)", "source": "web/app/(auth)", "outcome": "Lovable Cloud Supabase auth", "status": "pending", "next_action": "telas de login/signup"},
+    {"capability": "client-side MP4 render (mediabunny + WebCodecs)", "source": "web/lib/render/mp4.ts", "outcome": "portar para o novo app", "status": "pending", "next_action": "copiar motor de render"},
+    {"capability": "cloud rendering (FastAPI + Celery + Redis + FFmpeg)", "source": "backend/", "outcome": "blocked", "status": "blocked", "next_action": "não roda na plataforma (sem Python/workers); render no navegador cobre o fluxo principal"},
+    {"capability": "CLI phase0 / video_assembler / CapCut drafts", "source": "phase0/, video_assembler/", "outcome": "blocked", "status": "blocked", "next_action": "ferramentas locais Python; fora do escopo web"},
+    {"capability": "record exports (dados existentes)", "source": "nenhum", "outcome": "pending", "status": "pending", "next_action": "pedir exports CSV/JSON do Supabase antigo após preview"},
+    {"capability": "secrets (GEMINI_API_KEY etc.)", "source": ".env examples", "outcome": "pending", "status": "pending", "next_action": "pedir via secret form antes de verificar IA"}
+  ]
+}
