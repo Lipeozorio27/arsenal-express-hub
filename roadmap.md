@@ -1,6 +1,6 @@
 # Roteiro
 
-- [ ] Migrar APENAS o agendador de postagens TikTok do repositório ALOBEXPRESS/arsenal-express (não tocar no SyncExpress)
-- [ ] Ler INTEGRAÇÃO_TIKTOK.md, LEIA-ME_TIKTOK_SCHEDULER.md e web/app/(dashboard)/tiktok do repo
-- [ ] Decidir: o scheduler atual do projeto já existe — alinhar com o que o repo tem
-- (Descartado) Migração completa do SyncExpress — cancelada a pedido do usuário
+- [x] Verificar o agendador TikTok no repositório ALOBEXPRESS/arsenal-express
+- [x] Conclusão: o scheduler do repo é só um esqueleto vazio; o scheduler deste projeto já está completo e funcional (PostZen, abas Contas/Postagens/Análises)
+- [x] SyncExpress intocado; banco não alterado (migration cancelada); deps da migração removidas
+- [ ] Aguardar o usuário dizer o que quer mudar no agendador
